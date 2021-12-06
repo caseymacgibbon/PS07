@@ -1,0 +1,43 @@
+---
+title: "Drivers and Accidents by State"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+US States have different reputations for reckless driving, and many citizens claim to reside in the state with the highest amount of accidents or rude drivers. There is, however, only one way to measure which states have the most reckless drivers that cause fatal deaths--to look at the data. 
+
+## Fatal Deaths by Speeding in Four States
+
+Every year, speeding accounts for 1/4 of all fatal car accidents. This data below displays a comparison of four different states, and the percent of fatal accidents caused by speeding each year. 
+
+```{r, echo= FALSE}
+
+library(fivethirtyeight)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(USAboundaries)
+library(sf)
+library(janitor)
+
+
+bad_drivers_narrow <- bad_drivers %>% 
+filter(state =="Arizona"| state == "Massachusetts" | state =="New Jersey" | state == "New York")
+ggplot(data= bad_drivers_narrow, aes(x = state, y = perc_speeding, fill= state)) +geom_col() + labs(x= "State", y= "Percent of Deaths by Speeding", title = "Percent of Fatal Accidents by Speeding in US States")
+```
+
+## Alcohol Use
+
+Additionally, 1.5 million people yearly are arrested for driving under the influence. ^[National Highway Traffic Safety Administration] This is due to the high risk of driving while under the influence, because it severely alters one's state of mind and can impair judgement and slow down processing time, making people more susceptible to accidents. According to the NHTSA, over 1/3 of traffic incidents are due to alcohol being involved. 
+```{r, echo= FALSE}
+us_shapefile <- "USA_adm/" %>% 
+  read_sf()
+
+bad_drivers_narrow <- bad_drivers %>% 
+filter(state =="Arizona"| state == "Massachusetts" | state =="New Jersey" | state == "New York")
+ggplot(data= bad_drivers_narrow, aes(x = state, y = perc_alcohol, fill= state)) +geom_col() + labs(x= "State", y= "Percent of Deaths by Alcohol Use", title = "Percent of Fatal Accidents by Alcohol Use in US States")
+```
